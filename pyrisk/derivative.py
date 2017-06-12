@@ -1,5 +1,16 @@
+"""Computes derivative with finite differences"""
+import numpy as np
+
+
 def derivative(func, points, eps=1e-8):
-    """Compute derivative of func at points
+    """Compute derivative of func at points using finite differences
+    
+    .. math::
+       ddx = \\frac{func(points + eps) - func(points - eps)}{2 * eps}
+    
+    Args:
+        func (function): function with N parameters
+        points (array): array with N-dimension
 
     Returns:
         derivative: list with derivative, for instance
@@ -15,4 +26,4 @@ def derivative(func, points, eps=1e-8):
         step_down[i] = p - eps
         d.append((func(*step_up) - func(*step_down))/(2*eps))
 
-    return d
+    return np.array(d)

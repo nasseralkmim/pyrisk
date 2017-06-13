@@ -1,4 +1,4 @@
-"""This module performs the FORM - Hasofer and Lind algorithm"""
+"""This module performs the FORM - Hasofer and Lind algorithm from Choi book"""
 import numpy as np
 from scipy import stats
 from .derivative import derivative
@@ -83,7 +83,6 @@ def form_hlrf_choi(limit_state, X, tol=1e-3):
 
         condition1 = np.linalg.norm(x_updt - x)/np.linalg.norm(x_updt) < tol
         condition2 = abs(np.round(beta, 3) - np.round(beta_previous, 3)) < tol
-
         if condition2 or condition1:
             convergence = True
         if not convergence:

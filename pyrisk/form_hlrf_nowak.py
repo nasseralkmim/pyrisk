@@ -1,4 +1,4 @@
-"""This module performs the FORM - Hasofer and Lind algorithm"""
+"""This module performs the FORM - Hasofer and Lind algorithm from Nowak book"""
 import numpy as np
 from scipy import stats
 from .derivative import derivative

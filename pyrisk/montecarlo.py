@@ -1,9 +1,10 @@
+"""Generates random numbers from Monte Carlo simulation"""
 import numpy as np
 from scipy import stats
 
 
 def normal(num_simulations, mu, sig):
-    """Perform montecarlo simulation to generate rv following normal distribution
+    """Perform Monte Carlo simulation to generate rv following normal distribution
 
     Args:
         num_simulations: number of simulations

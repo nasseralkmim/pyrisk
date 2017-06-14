@@ -1,0 +1,3 @@
+* Pyrisk
+
+Is a simple collection of modules to perform statistical and risk analysis.

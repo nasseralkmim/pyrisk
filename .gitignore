@@ -4,3 +4,4 @@ diffuspy/__pycache__/
 dist/
 .idea/
 /logo/
+/*.xml

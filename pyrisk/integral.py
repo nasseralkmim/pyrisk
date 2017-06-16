@@ -1,3 +1,4 @@
+"""Computes the integral of a function"""
 def trapezoidal(func, interval=[0, 1], num_division=10):
     """computes integral using trapezoidal rule
 

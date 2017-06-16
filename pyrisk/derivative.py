@@ -13,9 +13,10 @@ def derivative(func, points, eps=1e-8):
         points (array): array with N-dimension
 
     Returns:
-        derivative: list with derivative, for instance
-        derivate[0] = d/d X1 func evaluated at points[0]
-        and derivative[1] = d/d X2 func evaluated at points[1]
+        derivative: list with derivative
+        for instance:
+            derivative[0] = d/d X1 func evaluated at points[0]
+            derivative[1] = d/d X2 func evaluated at points[1]
     """
     d = []
     for i, p in enumerate(points):

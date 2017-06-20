@@ -54,3 +54,15 @@ class StochasticModel(object):
 
         self.mean = np.array(mean)
         self.std = np.array(std)
+        self.rho = np.identity(len(args))
+
+    def add_correlation(self, var1: int, var2: int, rho: float):
+        """Modify the correlation matrix rho
+
+        Args:
+            var1 (int): first variable
+            var2 (int): second variable
+            rho (float): correlation betwen var1 and var2
+        """
+        self.rho[var1 - 1, var2 - 1] = rho
+        self.rho[var2 - 1, var1 - 1] = rho

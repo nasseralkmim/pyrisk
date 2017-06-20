@@ -5,7 +5,6 @@ import numpy as np
 def derivative(func, points, eps=1e-8):
     """Compute derivative of func at points using finite differences
     
-    .. math::
        ddx = \\frac{func(points + eps) - func(points - eps)}{2 * eps}
     
     Args:

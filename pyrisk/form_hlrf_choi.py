@@ -18,14 +18,10 @@ def form_hlrf_choi(limit_state, X, tol=1e-3):
     For a line given by ax + by + c = 0, the distance from (xp, yp) to 
     this line is,
 
-    .. math::
-
        beta = |a*xp + b*yp + c| / ||[a, b]||
 
     because (xp, yp) = (0, 0) and using a linear approximation for g(Xi),
     which generates :math: c = g(z*) - grad_u_z @ z*.
-
-    .. math:
 
        beta = (g(z*) - grad_g_z @ z) / || grad_g_z ||
 

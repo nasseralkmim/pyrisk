@@ -42,7 +42,7 @@ def lognormal(num_simulations, mu, sig):
     u = np.random.rand(num_simulations)  # uniform [0, 1]
     z = stats.norm.ppf(u)              # standard normal [0, 1]
 
-    sig_ln = np.log(sig**2/mu**2 + 1)
+    sig_ln = np.sqrt(np.log(sig**2/mu**2 + 1))
     mu_ln = np.log(mu) - 1/2 * sig_ln**2
 
     x = np.exp(mu_ln + z*sig_ln)
@@ -86,3 +86,53 @@ def gumbel_r(num_simulations, mu, sig):
 
     x = stats.gumbel_r.ppf(u, loc=loc, scale=scale)
     return x
+
+
+def correlated(*args, cov=None, num_simulations=1000):
+    """generate X_N correlated random variables
+
+    Args:
+        *args (list): [dist, mu, sig] of each random variable
+        cov (array): 2d array with covariance elements
+
+    Returns:
+        [X_N]: array with random variables each column is a variables
+               each row is a sample
+    """
+    dist, mu_x, sig_x = [], [], []
+    for d, m, s in args:
+        dist.append(d)
+        mu_x.append(m)
+        sig_x.append(s)
+
+    Cx = cov
+    _, T = np.linalg.eig(Cx)
+    Cy = T.T @ Cx @ T
+
+    mu_x = np.array(mu_x)
+    mu_y = T.T @ mu_x
+    sig_y = [np.sqrt(Cy[i, i]) for i in range(Cy.shape[0])]
+
+    y = np.zeros((num_simulations, len(dist)))
+    for i, d in enumerate(dist):
+        if d is 'norm':
+            y[:, i] = normal(num_simulations, mu_y[i], sig_y[i])
+        elif d is 'lognorm':
+            y[:, i] = lognormal(num_simulations, mu_y[i], sig_y[i])
+        else:
+            print('Dist not implemented!')
+
+    x = []
+    for yi in y:
+        x.append(T @ yi)
+    x = np.array(x)
+
+    return x
+
+
+if __name__ == '__main__':
+    x = correlated(['norm', 10, 1],
+                   ['norm', 15, 3],
+                   cov=np.array([[1, .5*3*1],
+                                 [.5*3*1, 3**2]]),
+                   num_simulations=100000)

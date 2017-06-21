@@ -24,11 +24,15 @@ def normal(num_simulations, mu, sig):
 def lognormal(num_simulations, mu, sig):
     """Generate lognormal random variable
 
-    In order to generate a RV X -> lN(mu, sig), we use the following relation
+    In order to generate a RV X -> LN(mu_X, sig_X) first we generate
+    ui uniform random number, then transform it to standard normal,
+    finally transform it to lognormal using the following relation
+    betweeen normal and lognormal distributions,
 
-        z = (ln(x) - mu_ln) / sig_ln
+        sig_lnX = sqrt(ln(sig_X**2/mu_X**2 + 1))
+        mu_lnX = ln(mu_X) - 0.5 * sig_lnX**2
 
-    where the RV ln(X) -> N(mu_ln, sig_ln)
+    where lnX -> N(mu_lnX, sig_lnX).
 
     Args:
         num_simulations: number of simulations
@@ -111,6 +115,7 @@ def correlated(*args, cov=None, num_simulations=1000):
 
     mu_x = np.array(mu_x)
     mu_y = T.T @ mu_x
+
     sig_y = [np.sqrt(Cy[i, i]) for i in range(Cy.shape[0])]
 
     y = np.zeros((num_simulations, len(dist)))
@@ -118,6 +123,9 @@ def correlated(*args, cov=None, num_simulations=1000):
         if d is 'norm':
             y[:, i] = normal(num_simulations, mu_y[i], sig_y[i])
         elif d is 'lognorm':
+            # avoid taking ln of negative value
+            if mu_y[i] < 0:
+                mu_y[i] = - mu_y[i]
             y[:, i] = lognormal(num_simulations, mu_y[i], sig_y[i])
         else:
             print('Dist not implemented!')
